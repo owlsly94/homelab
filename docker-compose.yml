@@ -1,0 +1,357 @@
+version: '3.8'
+services:
+
+  # Prowlarr
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Belgrade
+    volumes:
+      - /home/stefan/docker/prowlarr/config:/config
+    ports:
+      - 9696:9696
+    restart: unless-stopped
+    networks:
+      docker_media-stack-network:
+        ipv4_address: 172.18.0.10
+
+  # Sonarr
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Belgrade
+    volumes:
+      - /home/stefan/docker/sonarr/config:/config
+      - /multimedia/Downloads/tv:/tv
+      - /multimedia/Downloads:/downloads
+    ports:
+      - 8989:8989
+    restart: unless-stopped
+    networks:
+      docker_media-stack-network:
+        ipv4_address: 172.18.0.11
+
+  # Radarr
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Belgrade
+    volumes:
+      - /home/stefan/docker/radarr/config:/config
+      - /multimedia/Downloads/movies:/movies
+      - /multimedia/Downloads:/downloads
+    ports:
+      - 7878:7878
+    restart: unless-stopped
+    networks:
+      docker_media-stack-network:
+        ipv4_address: 172.18.0.12
+
+  # Lidarr
+  lidarr:
+    image: linuxserver/lidarr:latest
+    container_name: lidarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Belgrade
+    volumes:
+      - /home/stefan/docker/lidarr/config:/config
+      - /multimedia/Downloads/music:/music
+      - /multimedia/Downloads:/downloads
+    ports:
+      - 8686:8686
+    restart: unless-stopped
+    networks:
+      docker_media-stack-network:
+        ipv4_address: 172.18.0.13
+
+  # AdGuard Home
+  adguard:
+    image: adguard/adguardhome:latest
+    container_name: adguard
+    ports:
+      - "3000:3000" 
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "445:445"
+    volumes:
+      - /home/stefan/docker/adguard/work:/opt/adguardhome/work 
+      - /home/stefan/docker/adguard/conf:/opt/adguardhome/conf 
+    restart: unless-stopped
+    environment:
+      - TZ=Europe/Belgrade
+    networks:
+      docker_media-stack-network:
+        ipv4_address: 172.18.0.14 
+
+  # Plex
+  #  plex:
+  #  image: plexinc/pms-docker:latest
+  #  container_name: plex
+  #  environment:
+  #    - PLEX_CLAIM=claim-<code>
+  #    - PLEX_LOCAL_NETWORK=<server ip>/24
+  #    - PLEX_VERSION=latest
+  #    - PUID=1000
+  #    - PGID=1000
+  #    - TZ=Europe/Belgrade
+  #  volumes:
+  #    - /home/stefan/docker/plex/config:/config
+  #    - /multimedia/Downloads/movies:/movies
+  #    - /multimedia/Downloads/tv:/tv
+  #  ports:
+  #    - 32400:32400/tcp
+  #  restart: unless-stopped
+  #  networks:
+  #    media-stack-network:
+  #      ipv4_address: 172.18.0.15
+
+  # Jellyfin
+  jellyfin:
+    image: jellyfin/jellyfin:unstable
+    container_name: jellyfin
+    volumes:
+      - /home/stefan/docker/jellyfin/config:/config
+      - /multimedia/Downloads/tv:/data/tvshows
+      - /multimedia/Downloads/movies:/data/movies
+      - /multimedia/Downloads/music:/data/music
+    ports:
+      - "8096:8096"
+    restart: unless-stopped
+    environment:
+      - TZ=Europe/Belgrade
+    networks:
+      docker_media-stack-network:
+        ipv4_address: 172.18.0.16
+
+  # qBittorrent
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Belgrade
+      - WEBUI_PORT=8080
+    volumes:
+      - /home/stefan/docker/qbittorrent/config:/config
+      - /multimedia/Downloads:/downloads
+    ports:
+      - 6881:6881
+      - 6881:6881/udp
+      - 8080:8080
+    restart: unless-stopped
+    networks:
+      docker_media-stack-network:
+        ipv4_address: 172.18.0.17
+
+  # Portainer (Docker management)
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /home/stefan/docker/portainer/data:/data
+    ports:
+      - 9000:9000
+    restart: unless-stopped
+    networks:
+      docker_media-stack-network:
+        ipv4_address: 172.18.0.18
+
+  # Homerr (Dashboard)
+  #  homarr:
+  #  image: ghcr.io/ajnart/homarr:latest
+  #  container_name: homarr
+  #  volumes:
+  #    - /var/run/docker.sock:/var/run/docker.sock # Optional, only if you want docker integration
+  #    - /home/stefan/docker/homarr/configs:/app/data/configs
+  #    - /home/stefan/docker/homarr/icons:/app/public/icons
+  #    - /home/stefan/docker/homarr/data:/data
+  #  ports:
+  #    - '7575:7575'
+  #  restart: unless-stopped
+  #  networks:
+  #    docker_media-stack-network:
+  #      ipv4_address: 172.18.0.19
+
+  # FreshRSS
+  freshrss:
+    image: lscr.io/linuxserver/freshrss:latest
+    container_name: freshrss
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Belgrade
+    volumes:
+      - /home/stefan/docker/freshrss/config:/config
+    ports:
+      - 82:80
+    restart: unless-stopped
+    networks:
+      docker_media-stack-network:
+        ipv4_address: 172.18.0.20
+
+  # FullRSS
+  fullrss:
+    image: heussd/fivefilters-full-text-rss:latest
+    container_name: fullrss
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Belgrade
+    volumes:
+      - /home/stefan/docker/fullrss/config:/config
+    ports:
+      - 84:80
+    restart: unless-stopped
+    networks:
+      docker_media-stack-network:
+        ipv4_address: 172.18.0.21
+
+  # WireGuard Easy
+  wg-easy:
+    image: weejewel/wg-easy:latest
+    container_name: wg-easy
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    environment:
+      - WG_HOST=<external ip> # NoIP
+      - PASSWORD=<password>
+      - SERVERPORT=51820  
+      - PEERS=5 
+      - INTERNAL_SUBNET=10.13.13.0  
+    volumes:
+      - /home/stefan/docker/wg-easy/config:/etc/wireguard  
+      - /lib/modules:/lib/modules:ro
+    ports:
+      - 51820:51820/udp  
+      - 51821:51821
+    networks:
+      docker_media-stack-network:
+        ipv4_address: 172.18.0.22
+    restart: unless-stopped
+
+  # NGINX Proxy Manager
+  nginx-proxy-manager:
+    image: jc21/nginx-proxy-manager:latest
+    container_name: nginx-proxy-manager
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Belgrade
+    volumes:
+      - /home/stefan/docker/nginx-proxy-manager/data:/data
+      - /home/stefan/docker/nginx-proxy-manager/letsencrypt:/etc/letsencrypt
+    ports:
+      - 80:80    # HTTP
+      - 81:81    # NPM management interface
+      - 443:443  # HTTPS
+    restart: unless-stopped
+    networks:
+      docker_media-stack-network:
+        ipv4_address: 172.18.0.23
+        
+  # Jellyseerr
+  jellyseerr:
+    image: fallenbagel/jellyseerr:latest
+    container_name: jellyseerr
+    environment:
+      - PUID=1000 #optional
+      - PGID=1000 #optional
+      - TZ=Europe/Belgrade #optional
+      - LOG_LEVEL=debug
+    ports:
+      - 5055:5055
+    volumes:
+      - /home/stefan/docker/jellyseerr/appdata/config:/app/config #optional
+    restart: unless-stopped
+    networks:
+      docker_media-stack-network:
+        ipv4_address: 172.18.0.24
+
+  # Filebrowser
+  filebrowser:
+    image: filebrowser/filebrowser:v2-s6
+    container_name: filebrowser
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Belgrade
+    volumes:
+      - /multimedia/Downloads:/srv
+      - /home/stefan/docker/filebrowser/filebrowser.db:/database/filebrowser.db
+      - /home/stefan/docker/filebrowser/settings.json:/config/settings.json
+    ports:
+      - 5040:80
+    restart: unless-stopped
+    networks:
+      docker_media-stack-network:
+        ipv4_address: 172.18.0.25
+
+  # SABnzbd
+  #sabnzbd:
+  #  image: linuxserver/sabnzbd:latest
+  #  container_name: sabnzbd
+  #  environment:
+  #    - PUID=1000
+  #    - PGID=1000
+  #    - TZ=Europe/Belgrade
+  #  volumes:
+  #    - /home/stefan/docker/sabnzbd/config:/config
+  #    - /multimedia/Downloads:/downloads
+  #    - /multimedia/Downloads/incomplete-downloads:/incomplete-downloads
+  #  ports:
+  #    - 8086:8080
+  #  restart: unless-stopped
+  #  networks:
+  #    docker_media-stack-network:
+  #      ipv4_address: 172.18.0.26
+
+  # Crafty (for minecraft servers)
+  #  crafty:
+  #  container_name: crafty
+  #  image: registry.gitlab.com/crafty-controller/crafty-4:latest
+  #  restart: always
+  #  environment:
+  #    - TZ=Europe/Belgrade
+  #  ports:
+  #    - "8000:8000" # HTTP
+  #    - "8443:8443" # HTTPS
+  #    - "8123:8123" # DYNMAP
+  #    - "19132:19132/udp" # BEDROCK
+  #    - "25500-25600:25500-25600" # MC SERV PORT RANGE
+  #  volumes:
+  #    - /home/stefan/docker/crafty/backups:/crafty/backups
+  #    - /home/stefan/docker/crafty/logs:/crafty/logs
+  #    - /home/stefan/docker/crafty/servers:/crafty/servers
+  #    - /home/stefan/docker/crafty/config:/crafty/app/config
+  #    - /home/stefan/docker/crafty/import:/crafty/import
+  #  networks:
+  #    docker_media-stack-network:
+  #      ipv4_address: 172.18.0.27
+  
+# On first install:
+networks:
+  media-stack-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.18.0.0/16
+
+# After the first install:
+#networks:
+#  docker_media-stack-network:
+#    external: true
+#
