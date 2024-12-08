@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.9'
 services:
 
   # Prowlarr
@@ -127,6 +127,8 @@ services:
       - /multimedia/Downloads/music:/data/music
     ports:
       - "8096:8096"
+    devices:
+      - /dev/dri/renderD128:/dev/dri/renderD128
     restart: unless-stopped
     environment:
       - TZ=Europe/Belgrade
