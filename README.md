@@ -30,14 +30,29 @@ mkdir -p ~/docker
 ```
 3. Move or copy the `docker-compose.yml` file in the docker directory
 ```
-cp docker-compose.yml ~/docker
+cp docker-compose.yml create_media_stack_network.sh ~/docker
 cd ~/docker
 ```
-4. Make sure you have installed docker on your system and install apps using the command
+4. Make sure you create the network by running a command:
+```
+chmod +x create_media_stack_network.sh
+sh create_media_stack_network.sh
+```
+if you haven't confugired docker to use commands without sudo, you may need to, either configure docker to not use sudo or run a script as sudo, if it fails:
+```
+sudo sh create_media_stack_network.sh
+```
+to use docker without sudo:
+```
+sudo groupadd docker
+sudo usermod -aG docker $USER
+newgrp docker
+```
+5. Make sure you have installed docker on your system and install apps using the command
 ```
 sudo docker compose up -d
 ```
-5. When you set up everything, make sure that your apps have the right premissions. If not, used the command:
+6. When you set up everything, make sure that your apps have the right premissions. If not, used the command:
 ```
 docker exec -it <container_name_or_id> /bin/bash
 ```
