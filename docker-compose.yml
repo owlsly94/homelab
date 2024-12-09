@@ -15,7 +15,7 @@ services:
       - 9696:9696
     restart: unless-stopped
     networks:
-      docker_media-stack-network:
+      media-stack-network:
         ipv4_address: 172.18.0.10
 
   # Sonarr
@@ -34,7 +34,7 @@ services:
       - 8989:8989
     restart: unless-stopped
     networks:
-      docker_media-stack-network:
+      media-stack-network:
         ipv4_address: 172.18.0.11
 
   # Radarr
@@ -53,7 +53,7 @@ services:
       - 7878:7878
     restart: unless-stopped
     networks:
-      docker_media-stack-network:
+      media-stack-network:
         ipv4_address: 172.18.0.12
 
   # Lidarr
@@ -72,7 +72,7 @@ services:
       - 8686:8686
     restart: unless-stopped
     networks:
-      docker_media-stack-network:
+      media-stack-network:
         ipv4_address: 172.18.0.13
 
   # AdGuard Home
@@ -91,7 +91,7 @@ services:
     environment:
       - TZ=Europe/Belgrade
     networks:
-      docker_media-stack-network:
+      media-stack-network:
         ipv4_address: 172.18.0.14 
 
   # Plex
@@ -133,7 +133,7 @@ services:
     environment:
       - TZ=Europe/Belgrade
     networks:
-      docker_media-stack-network:
+      media-stack-network:
         ipv4_address: 172.18.0.16
 
   # qBittorrent
@@ -154,7 +154,7 @@ services:
       - 8080:8080
     restart: unless-stopped
     networks:
-      docker_media-stack-network:
+      media-stack-network:
         ipv4_address: 172.18.0.17
 
   # Portainer (Docker management)
@@ -168,7 +168,7 @@ services:
       - 9000:9000
     restart: unless-stopped
     networks:
-      docker_media-stack-network:
+      media-stack-network:
         ipv4_address: 172.18.0.18
 
   # Homerr (Dashboard)
@@ -184,7 +184,7 @@ services:
   #    - '7575:7575'
   #  restart: unless-stopped
   #  networks:
-  #    docker_media-stack-network:
+  #    media-stack-network:
   #      ipv4_address: 172.18.0.19
 
   # FreshRSS
@@ -201,7 +201,7 @@ services:
       - 82:80
     restart: unless-stopped
     networks:
-      docker_media-stack-network:
+      media-stack-network:
         ipv4_address: 172.18.0.20
 
   # FullRSS
@@ -218,7 +218,7 @@ services:
       - 84:80
     restart: unless-stopped
     networks:
-      docker_media-stack-network:
+      media-stack-network:
         ipv4_address: 172.18.0.21
 
   # WireGuard Easy
@@ -241,7 +241,7 @@ services:
       - 51820:51820/udp  
       - 51821:51821
     networks:
-      docker_media-stack-network:
+      media-stack-network:
         ipv4_address: 172.18.0.22
     restart: unless-stopped
 
@@ -262,7 +262,7 @@ services:
       - 443:443  # HTTPS
     restart: unless-stopped
     networks:
-      docker_media-stack-network:
+      media-stack-network:
         ipv4_address: 172.18.0.23
         
   # Jellyseerr
@@ -280,7 +280,7 @@ services:
       - /home/stefan/docker/jellyseerr/appdata/config:/app/config #optional
     restart: unless-stopped
     networks:
-      docker_media-stack-network:
+      media-stack-network:
         ipv4_address: 172.18.0.24
 
   # Filebrowser
@@ -299,7 +299,7 @@ services:
       - 5040:80
     restart: unless-stopped
     networks:
-      docker_media-stack-network:
+      media-stack-network:
         ipv4_address: 172.18.0.25
 
   # SABnzbd
@@ -318,7 +318,7 @@ services:
   #    - 8086:8080
   #  restart: unless-stopped
   #  networks:
-  #    docker_media-stack-network:
+  #    media-stack-network:
   #      ipv4_address: 172.18.0.26
 
   # Crafty (for minecraft servers)
@@ -341,7 +341,7 @@ services:
   #    - /home/stefan/docker/crafty/config:/crafty/app/config
   #    - /home/stefan/docker/crafty/import:/crafty/import
   #  networks:
-  #    docker_media-stack-network:
+  #    media-stack-network:
   #      ipv4_address: 172.18.0.27
   
 # On first install:
@@ -354,6 +354,6 @@ networks:
 
 # After the first install:
 #networks:
-#  docker_media-stack-network:
+#  media-stack-network:
 #    external: true
 #
