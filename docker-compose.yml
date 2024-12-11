@@ -83,7 +83,7 @@ services:
       - "3000:3000" 
       - "53:53/tcp"
       - "53:53/udp"
-      - "445:445"
+      - "444:443"
     volumes:
       - /home/stefan/docker/adguard/work:/opt/adguardhome/work 
       - /home/stefan/docker/adguard/conf:/opt/adguardhome/conf 
