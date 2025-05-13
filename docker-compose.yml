@@ -343,7 +343,47 @@ services:
   #  networks:
   #    media-stack-network:
   #      ipv4_address: 172.18.0.27
-  
+
+  # Nextcloud App
+  nextcloud:
+    image: nextcloud
+    container_name: nextcloud
+    restart: unless-stopped
+    ports:
+      - 8081:80
+    volumes:
+      - /home/stefan/docker/nextcloud/html:/var/www/html
+      - /home/stefan/docker/nextcloud/data:/var/www/html/data
+    environment:
+      - MYSQL_PASSWORD=password
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+      - MYSQL_HOST=nextcloud-db
+      - TZ=Europe/Belgrade
+    depends_on:
+      - nextcloud-db
+    networks:
+      media-stack-network:
+        ipv4_address: 172.18.0.28
+
+  # Nextcloud Database (MariaDB)
+  nextcloud-db:
+    image: mariadb:10.6
+    container_name: nextcloud-db
+    restart: unless-stopped
+    command: --transaction-isolation=READ-COMMITTED --log-bin=binlog --binlog-format=ROW
+    volumes:
+      - /home/stefan/docker/nextcloud/db:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_PASSWORD=password
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+      - TZ=Europe/Belgrade
+    networks:
+      media-stack-network:
+        ipv4_address: 172.18.0.29
+
 # On first install:
 #networks:
 #  media-stack-network:
