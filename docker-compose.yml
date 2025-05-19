@@ -384,6 +384,24 @@ services:
       media-stack-network:
         ipv4_address: 172.18.0.29
 
+  # Glances (System Monitor)
+  glances:
+    image: nicolargo/glances:latest-full
+    container_name: glances
+    restart: unless-stopped
+    pid: host
+    ports:
+      - "61208:61208"
+    environment:
+      - GLANCES_OPT=-w
+      - TZ=Europe/Belgrade
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /etc/os-release:/etc/os-release:ro
+    networks:
+      media-stack-network:
+        ipv4_address: 172.18.0.31
+
 # On first install:
 #networks:
 #  media-stack-network:
