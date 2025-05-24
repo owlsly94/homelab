@@ -2,78 +2,78 @@ version: '3.9'
 services:
 
   # Prowlarr
-  prowlarr:
-    image: lscr.io/linuxserver/prowlarr:latest
-    container_name: prowlarr
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Belgrade
-    volumes:
-      - /home/stefan/docker/prowlarr/config:/config
-    ports:
-      - 9696:9696
-    restart: unless-stopped
-    networks:
-      media-stack-network:
-        ipv4_address: 172.18.0.10
+  #prowlarr:
+  #  image: lscr.io/linuxserver/prowlarr:latest
+  #  container_name: prowlarr
+  #  environment:
+  #    - PUID=1000
+  #    - PGID=1000
+  #    - TZ=Europe/Belgrade
+  #  volumes:
+  #    - /home/stefan/docker/prowlarr/config:/config
+  #  ports:
+  #    - 9696:9696
+  #  restart: unless-stopped
+  #  networks:
+  #    media-stack-network:
+  #      ipv4_address: 172.18.0.10
 
   # Sonarr
-  sonarr:
-    image: lscr.io/linuxserver/sonarr:latest
-    container_name: sonarr
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Belgrade
-    volumes:
-      - /home/stefan/docker/sonarr/config:/config
-      - /multimedia/Downloads/tv:/tv
-      - /multimedia/Downloads:/downloads
-    ports:
-      - 8989:8989
-    restart: unless-stopped
-    networks:
-      media-stack-network:
-        ipv4_address: 172.18.0.11
+  #sonarr:
+  #  image: lscr.io/linuxserver/sonarr:latest
+  #  container_name: sonarr
+  #  environment:
+  #    - PUID=1000
+  #    - PGID=1000
+  #    - TZ=Europe/Belgrade
+  #  volumes:
+  #    - /home/stefan/docker/sonarr/config:/config
+  #    - /multimedia/Downloads/tv:/tv
+  #    - /multimedia/Downloads:/downloads
+  #  ports:
+  #    - 8989:8989
+  #  restart: unless-stopped
+  #  networks:
+  #    media-stack-network:
+  #      ipv4_address: 172.18.0.11
 
   # Radarr
-  radarr:
-    image: lscr.io/linuxserver/radarr:latest
-    container_name: radarr
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Belgrade
-    volumes:
-      - /home/stefan/docker/radarr/config:/config
-      - /multimedia/Downloads/movies:/movies
-      - /multimedia/Downloads:/downloads
-    ports:
-      - 7878:7878
-    restart: unless-stopped
-    networks:
-      media-stack-network:
-        ipv4_address: 172.18.0.12
+  #radarr:
+  #  image: lscr.io/linuxserver/radarr:latest
+  #  container_name: radarr
+  #  environment:
+  #    - PUID=1000
+  #    - PGID=1000
+  #    - TZ=Europe/Belgrade
+  #  volumes:
+  #    - /home/stefan/docker/radarr/config:/config
+  #    - /multimedia/Downloads/movies:/movies
+  #    - /multimedia/Downloads:/downloads
+  #  ports:
+  #    - 7878:7878
+  #  restart: unless-stopped
+  #  networks:
+  #    media-stack-network:
+  #      ipv4_address: 172.18.0.12
 
   # Lidarr
-  lidarr:
-    image: linuxserver/lidarr:latest
-    container_name: lidarr
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Belgrade
-    volumes:
-      - /home/stefan/docker/lidarr/config:/config
-      - /multimedia/Downloads/music:/music
-      - /multimedia/Downloads:/downloads
-    ports:
-      - 8686:8686
-    restart: unless-stopped
-    networks:
-      media-stack-network:
-        ipv4_address: 172.18.0.13
+  #lidarr:
+  #  image: linuxserver/lidarr:latest
+  #  container_name: lidarr
+  #  environment:
+  #    - PUID=1000
+  #    - PGID=1000
+  #    - TZ=Europe/Belgrade
+  #  volumes:
+  #    - /home/stefan/docker/lidarr/config:/config
+  #    - /multimedia/Downloads/music:/music
+  #    - /multimedia/Downloads:/downloads
+  #  ports:
+  #    - 8686:8686
+  #  restart: unless-stopped
+  #  networks:
+  #    media-stack-network:
+  #      ipv4_address: 172.18.0.13
 
   # AdGuard Home
   adguard:
@@ -266,22 +266,22 @@ services:
         ipv4_address: 172.18.0.23
         
   # Jellyseerr
-  jellyseerr:
-    image: fallenbagel/jellyseerr:latest
-    container_name: jellyseerr
-    environment:
-      - PUID=1000 #optional
-      - PGID=1000 #optional
-      - TZ=Europe/Belgrade #optional
-      - LOG_LEVEL=debug
-    ports:
-      - 5055:5055
-    volumes:
-      - /home/stefan/docker/jellyseerr/appdata/config:/app/config #optional
-    restart: unless-stopped
-    networks:
-      media-stack-network:
-        ipv4_address: 172.18.0.24
+  #jellyseerr:
+  #  image: fallenbagel/jellyseerr:latest
+  #  container_name: jellyseerr
+  #  environment:
+  #    - PUID=1000 #optional
+  #    - PGID=1000 #optional
+  #    - TZ=Europe/Belgrade #optional
+  #    - LOG_LEVEL=debug
+  #  ports:
+  #    - 5055:5055
+  #  volumes:
+  #    - /home/stefan/docker/jellyseerr/appdata/config:/app/config #optional
+  #  restart: unless-stopped
+  #  networks:
+  #    media-stack-network:
+  #      ipv4_address: 172.18.0.24
 
   # Filebrowser
   filebrowser:
@@ -385,22 +385,39 @@ services:
         ipv4_address: 172.18.0.29
 
   # Glances (System Monitor)
-  glances:
-    image: nicolargo/glances:latest-full
-    container_name: glances
-    restart: unless-stopped
-    pid: host
-    ports:
-      - "61208:61208"
+  #glances:
+  #  image: nicolargo/glances:latest-full
+  #  container_name: glances
+  #  restart: unless-stopped
+  #  pid: host
+  #  ports:
+  #    - "61208:61208"
+  #  environment:
+  #    - GLANCES_OPT=-w
+  #    - TZ=Europe/Belgrade
+  #  volumes:
+  #    - /var/run/docker.sock:/var/run/docker.sock:ro
+  #    - /etc/os-release:/etc/os-release:ro
+  #  networks:
+  #    media-stack-network:
+  #      ipv4_address: 172.18.0.31
+
+  # DuckDNS (Dynamic DNS)
+  duckdns:
+    image: lscr.io/linuxserver/duckdns:latest
+    container_name: duckdns
+    network_mode: host #optional
     environment:
-      - GLANCES_OPT=-w
-      - TZ=Europe/Belgrade
+      - PUID=1000 #optional
+      - PGID=1000 #optional
+      - TZ=Europe/Belgrade #optional
+      - SUBDOMAINS=<subdomain>.duckdns.org #replace with your DuckDNS subdomain
+      - TOKEN=<token> #replace with your DuckDNS token
+      - UPDATE_IP=ipv4 #optional
+      - LOG_FILE=false #optional
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /etc/os-release:/etc/os-release:ro
-    networks:
-      media-stack-network:
-        ipv4_address: 172.18.0.31
+      - /home/stefan/docker/duckdns/config:/config #optional
+    restart: unless-stopped
 
 # On first install:
 #networks:
