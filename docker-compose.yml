@@ -401,6 +401,27 @@ services:
   #  networks:
   #    media-stack-network:
   #      ipv4_address: 172.18.0.31
+  
+  # Navidrome
+  navidrome:
+    image: deluan/navidrome:latest
+    container_name: navidrome
+    environment:
+      - ND_SCANINTERVAL=1m
+      - ND_LOGLEVEL=info
+      - ND_BASEURL=/navidrome
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Belgrade
+    volumes:
+      - /home/stefan/docker/navidrome/data:/data
+      - /multimedia/Downloads/music:/music
+    ports:
+      - 4533:4533
+    restart: unless-stopped
+    networks:
+      media-stack-network:
+        ipv4_address: 172.18.0.30
 
   # DuckDNS (Dynamic DNS)
   duckdns:
