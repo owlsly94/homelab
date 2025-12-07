@@ -75,6 +75,31 @@ services:
   #    media-stack-network:
   #      ipv4_address: 172.18.0.13
 
+  # Mealie
+  mealie:
+    image: ghcr.io/mealie-recipes/mealie:v1.12.0
+    container_name: mealie
+    restart: unless-stopped
+    ports:
+      - 9925:9000
+    deploy:
+      resources:
+        limits:
+          memory: 1000M
+    volumes:
+      - /home/stefan/docker/mealie/data:/app/data
+    environment:
+      ALLOW_SIGNUP: "false"
+      PUID: 1000
+      PGID: 1000
+      TZ: Europe/Belgrade
+      MAX_WORKERS: 1
+      WEB_CONCURRENCY: 1
+      BASE_URL: https://mealie.owlsly94.duckdns.org
+    networks:
+      media-stack-network:
+        ipv4_address: 172.18.0.33
+
   # AdGuard Home
   adguard:
     image: adguard/adguardhome:latest
